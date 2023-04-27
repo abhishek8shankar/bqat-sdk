@@ -58,7 +58,7 @@ public class BqatQualitySDKTest {
 	public void setUp() {
 		ReflectionTestUtils.setField(qualitySDKService, "getJsonKeyFingerQualityScore", "NFIQ2");
         ReflectionTestUtils.setField(qualitySDKService, "getJsonKeyIrisQualityScore", "quality");
-        ReflectionTestUtils.setField(qualitySDKService, "getJsonKeyFaceQualityScore", "confidence");
+        ReflectionTestUtils.setField(qualitySDKService, "getJsonKeyFaceQualityScore", "quality");
 		ReflectionTestUtils.setField(qualitySDKService, "getServerIpAddress", "127.0.0.1");
         ReflectionTestUtils.setField(qualitySDKService, "getServerPort", ":8848");
         ReflectionTestUtils.setField(qualitySDKService, "getServerPath", "/base64?urlsafe=true");
@@ -68,12 +68,46 @@ public class BqatQualitySDKTest {
 	}
 	
 	/*
-	 * Test Finger quality
+	 * Test Finger quality JP2000
 	 */
 	@Test
-	public void qualityFinger() {
+	public void qualityFinger_JP2000() {
 		setUp();
         sampleFingerPath = BqatQualitySDKTest.class.getResource("/sample_files/sample_finger_right_index.xml")
+				.getPath();
+		try {
+			List<BiometricType> modalitiesToMatch = new ArrayList<BiometricType>() {
+				{
+					add(BiometricType.FINGER);
+				}
+			};
+			BiometricRecord sample_record = xmlFileToBiometricRecord(sampleFingerPath);
+
+			Response<QualityCheck> response = qualitySDKService.checkQuality(sample_record, modalitiesToMatch, new HashMap<>());
+			if (response != null && response.getResponse() != null) {
+				Map<BiometricType, QualityScore> scores = response.getResponse().getScores();
+				if (scores != null && scores.get(BiometricType.FINGER) != null) {
+					QualityScore score = scores.get(BiometricType.FINGER);
+					Assert.assertTrue("Score (" + score.getScore() + ") should be greater than (0)",
+							score.getScore() > 0);
+				}
+			}
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * Test Finger quality WSQ
+	 */
+	@Test
+	public void qualityFinger_WSQ() {
+		setUp();
+        sampleFingerPath = BqatQualitySDKTest.class.getResource("/sample_files/sample_finger_right_index_wsq.xml")
 				.getPath();
 		try {
 			List<BiometricType> modalitiesToMatch = new ArrayList<BiometricType>() {
