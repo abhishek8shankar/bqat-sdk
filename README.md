@@ -58,7 +58,7 @@ docker compose up -d
 
 ### Samples Information 
 ## Face
-```
+```text
 {
 	"results": {
 		"file": "face_1682599598212.jp2",
@@ -117,7 +117,7 @@ docker compose up -d
 }
 ```
 ## Fingerprint
-```
+```text
 {
 	"results": {
 		"file": "fingerprint_Right IndexFinger_1682599605621.jp2",
@@ -140,7 +140,7 @@ docker compose up -d
 }
 ```
 ## Iris
-```
+```text
 {
 	"results": {
 		"file": "iris_Left_1682599612619.jp2",
