@@ -16,7 +16,7 @@ bqat.content.type=application/json
 bqat.content.charset=utf-8
 bqat.jsonkey.finger.quality.score=NFIQ2
 bqat.jsonkey.iris.quality.score=quality
-bqat.jsonkey.face.quality.score=confidence
+bqat.jsonkey.face.quality.score=quality
 bqat.json.results=results
 ```
 
