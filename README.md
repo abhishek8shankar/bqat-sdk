@@ -1,14 +1,14 @@
-# bqat-sdk
+# BQAT SDK Wrapper
 
-This service is used to get the quality parameter along with other parameters for analysis for a given modality like Fingerprint, face, Iris for given data type such as JP2000 and WSQ.
- 
-### SDK follows Mosip Specification Version: 0.9
-```text
-https://docs.mosip.io/1.1.5/apis/biometric-sdk-api-specification
-```
+This service acts as a wrapper over BQAT's (Biometric Quality Assessment Tool) [stateless API](https://github.com/Biometix/bqat-stateless) to get the quality parameter along with other metrics for analysis of a given biometric modality like Fingerprint, Face, Iris for data formats type such as JP2000 and WSQ.
 
-### Application.properties File Changes
-```text
+This wrapper follows [MOSIP Biometric SDK API Specification](https://docs.mosip.io/1.1.5/apis/biometric-sdk-api-specification).
+
+## Set Up
+
+In order to run this application you need to first setup or configure the beloww properties in the `application.properties` file.
+
+```properties
 bqat.server.ipaddress=(host)
 bqat.server.port=:(port)
 bqat.server.path=/base64?urlsafe=true
@@ -20,45 +20,55 @@ bqat.jsonkey.face.quality.score=confidence
 bqat.json.results=results
 ```
 
-### Check service status
-```text
-http://{host}:8848/docs/
+## Run as Docker
 
-In case of localhost:
-http://localhost:8848/docs
+### Pull Docker Image
+
+Pull the BAQT stateless API docker image from docker hub.
+
+`docker pull ghcr.io/biometix/bqat-stateless:latest`
+
+### Run Docker Image
+
+Use the below commande to run the docker image.
+
+`docker compose up -d`
+
+### Check Service Status
+
+Call the below endpoint from your browser to verify if the service is running.
+`http://{host}:8848/docs/`
+
+Example: For localhost call, `http://localhost:8848/docs`
+
+You should see the below response, 
+
+![](_images/bqat-stateless-screen.png)
+
+
+## BAQT Stateless API
+
+### Sample Request 
+
+Request URL: `http://localhost:8848/base64?urlsafe=true`
+
+Request Body:
+```JSON
+{
+  "modality": "iris",
+  "id": "uniqueid",
+  "type": "jp2",
+  "data": "base64URLEncodedBiometricData",
+  "requestTime": "2023-04-27T04:30:37.131147300",
+  "version": "1.0.0"
+}
 ```
-You will see response like 
-```text
-BQAT-Stateless
- 1.2.0 beta 
-OAS3
-/openapi.json
-BQAT-Stateless API provide you with biometric quality assessment capability as stateless service. 🚀
 
-File
-You can submit biometric file as is for assessment.
+### Sample Response Per Modality
 
-Base64
-You can submit biometric file as Base64 encoded string for assessment.
+#### Face
 
-Apache 2.0
-
-```
-## Run as docker
-
-### Pull docker image
-
-docker pull ghcr.io/biometix/bqat-stateless:latest
-
-### Run docker image
-
-docker compose up -d
-
-```
-
-### Samples Information 
-## Face
-```text
+```JSON
 {
 	"results": {
 		"file": "face_1682599598212.jp2",
@@ -116,8 +126,9 @@ docker compose up -d
 	"timestamp": "2023-04-27 12:46:40.106507"
 }
 ```
-## Fingerprint
-```text
+
+#### Fingerprint
+```JSON
 {
 	"results": {
 		"file": "fingerprint_Right IndexFinger_1682599605621.jp2",
@@ -139,8 +150,9 @@ docker compose up -d
 	"timestamp": "2023-04-27 12:46:45.689680"
 }
 ```
-## Iris
-```text
+
+#### Iris
+```JSON
 {
 	"results": {
 		"file": "iris_Left_1682599612619.jp2",
@@ -169,4 +181,6 @@ docker compose up -d
 }
 ```
 
+## Wrapper Implementaion Details
 
+The wrapper works as per [MOSIP's specification](https://docs.mosip.io/1.1.5/apis/biometric-sdk-api-specification) for quality check. The wrapper received request for quality check for a single Biometric Image Record (BIR) and calls the BAQT stateless API to perform quality check and retruns the result as per the specification.

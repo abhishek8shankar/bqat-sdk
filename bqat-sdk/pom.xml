@@ -9,6 +9,12 @@
 	<description>Implementation of Quality service for biometrics</description>
 	<packaging>jar</packaging>
 
+	<scm>
+		<connection>scm:git:git://github.com/Biometix/bqat-sdk</connection>
+		<developerConnection>scm:git:ssh://github.com/Biometix/bqat-sdk</developerConnection>
+		<url>https://github.com/Biometix/bqat-sdk</url>
+		<tag>HEAD</tag>
+	</scm>
 	<licenses>
           <license>
                 <name>MPL 2.0</name>
