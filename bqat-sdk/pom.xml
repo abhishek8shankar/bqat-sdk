@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<artifactId>bqat-sdk</artifactId>
+	<artifactId>bqatsdk-services</artifactId>
 	<groupId>io.bqat.sdk</groupId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bqat-sdk</name>
+	<name>bqatsdk-services</name>
 	<description>Implementation of Quality service for biometrics</description>
 	<packaging>jar</packaging>
 
@@ -25,40 +25,146 @@
 	<properties>
 	
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- maven -->
+		<java.version>11</java.version>
+      	<!-- maven -->
 		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-		<maven.compiler.version>3.8.0</maven.compiler.version>
-		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
-		<maven.war.plugin.version>3.1.0</maven.war.plugin.version>
-		<maven.surefire.plugin.version>2.9</maven.surefire.plugin.version>
+        <maven.compiler.target>11</maven.compiler.target>
+		<!-- Core -->
+		<spring.boot.version>2.0.2.RELEASE</spring.boot.version>
+		<spring-cloud-config.version>2.0.2.RELEASE</spring-cloud-config.version>
+		<maven.surefire.plugin.version>2.22.0</maven.surefire.plugin.version>
 		<maven.jacoco.plugin.version>0.8.5</maven.jacoco.plugin.version>
 		<maven.sonar.plugin.version>3.7.0.1746</maven.sonar.plugin.version>
-		<maven.javadoc.version>3.0.1</maven.javadoc.version>
-		<maven-shade-plugin.version>2.3</maven-shade-plugin.version>
-		
-		<biometrics-util.version>1.2.0.1-B1</biometrics-util.version>
-		<kernel.biometricsdk.version>1.2.0.1-B2</kernel.biometricsdk.version>
-		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
+
+		<!-- Lombok -->
+		<lombok.version>1.18.8</lombok.version>
+
+		<!-- Swagger -->
+		<swagger.version>2.9.2</swagger.version>
+		<swagger.annotations.version>1.5.21</swagger.annotations.version>
+		<!-- springdoc -->
+		<org.springdoc.version>1.5.9</org.springdoc.version>
+
+		<!-- Mosip kernel -->
+		<kernel.biometrics.api.version>1.2.0.1-B2</kernel.biometrics.api.version>
+		<kernel.logger.logback.version>1.2.0.1-B1</kernel.logger.logback.version>
+		<kernel.core.version>1.2.0.1-B1</kernel.core.version>
+		<!-- Spring -->
 		<spring.boot.version>2.0.2.RELEASE</spring.boot.version>
-        <lombok.version>1.18.8</lombok.version>
+		
+		<!-- Mosip biometrics-util-->
+		<biometrics-util.version>1.2.0.1-B1</biometrics-util.version>
+
+		<!-- fasterxml jackson-->
+		<com.fasterxml.jackson.version>2.11.0</com.fasterxml.jackson.version>
+
+		<!-- Others-->
         <okhttp.version>2.7.5</okhttp.version>
      	<junit.version>4.12</junit.version>
 	</properties>
 	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-json</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${com.fasterxml.jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${com.fasterxml.jackson.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+			<version>${spring-cloud-config.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-dependencies</artifactId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 			<version>${spring.boot.version}</version>
-			<type>pom</type>
-			<scope>import</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-json</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+		   	<groupId>io.swagger</groupId>
+		   	<artifactId>swagger-annotations</artifactId>
+		   	<version>${swagger.annotations.version}</version>
+		</dependency>
+		<dependency>
+		   	<groupId>io.swagger</groupId>
+		   	<artifactId>swagger-models</artifactId>
+		   	<version>${swagger.annotations.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+		   	<version>${org.springdoc.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.mosip.kernel</groupId>
+			<artifactId>kernel-biometrics-api</artifactId>
+			<version>${kernel.biometrics.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.mosip.kernel</groupId>
+			<artifactId>kernel-logger-logback</artifactId>
+			<version>${kernel.logger.logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.mosip.kernel</groupId>
+			<artifactId>kernel-core</artifactId>
+			<version>${kernel.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.mosip.biometric.util</groupId>
@@ -71,21 +177,21 @@
 			<version>${okhttp.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>io.mosip.kernel</groupId>
-			<artifactId>kernel-biometrics-api</artifactId>
-			<version>${kernel.biometricsdk.version}</version>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>compile</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.11.1</version>
-        </dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.6</version>
+		</dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -107,64 +213,48 @@
             <version>1.7.25</version>
         </dependency>
         <dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <version>${junit.version}</version>
-	      <scope>test</scope>
+	      	<groupId>junit</groupId>
+	      	<artifactId>junit</artifactId>
+	      	<version>${junit.version}</version>
+	      	<scope>test</scope>
+	    </dependency>
+        <dependency>
+	      	<groupId>junit</groupId>
+	      	<artifactId>junit</artifactId>
+	      	<version>${junit.version}</version>
+	      	<scope>test</scope>
 	    </dependency>
     </dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-assembly-plugin</artifactId>
-	            <version>3.1.1</version>
-	            <configuration>
-	               <descriptorRefs>
-	                  <descriptorRef>jar-with-dependencies</descriptorRef>
-	               </descriptorRefs>
-	               <archive>
-	                  <!-- <manifest>
-	                     <addClasspath>true</addClasspath>
-	                     <mainClass>registrationtest.runapplication.RegistrationMain</mainClass>
-	                  </manifest>
-	                  -->
-	               </archive>
-	            </configuration>
-	            <executions>
-	               <execution>
-	                  <id>make-assembly</id>
-	                  <phase>package</phase>
-	                  <goals>
-	                     <goal>single</goal>
-	                  </goals>
-	               </execution>
-	            </executions>
-	         </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+					<skip>false</skip>
+					<argLine>
+						${argLine} --add-opens
+						java.xml/jdk.xml.internal=ALL-UNNAMED
+						--illegal-access=permit
+					</argLine>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${maven.jacoco.plugin.version}</version>
-				<configuration>
-					<append>true</append>
-				</configuration>
 				<executions>
 					<execution>
-						<id>agent-for-ut</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
 					<execution>
-						<id>agent-for-it</id>
-						<goals>
-							<goal>prepare-agent-integration</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-site</id>
-						<phase>verify</phase>
+						<id>report</id>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
@@ -173,39 +263,10 @@
 			</plugin>
 			<plugin>
                   <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-source-plugin</artifactId>
-                  <version>2.2.1</version>
-                  <executions>
-                        <execution>
-                          <id>attach-sources</id>
-                          <goals>
-                                <goal>jar-no-fork</goal>
-                          </goals>
-                        </execution>
-                  </executions>
-                </plugin>
-              <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-javadoc-plugin</artifactId>
-                  <version>3.2.0</version>
-                  <executions>
-                        <execution>
-                          <id>attach-javadocs</id>
-                          <goals>
-                                <goal>jar</goal>
-                          </goals>
-                        </execution>
-                  </executions>
-                  <configuration>
-                    <doclint>none</doclint>
-                  </configuration>
-        	</plugin>
-			<plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-gpg-plugin</artifactId>
                   <version>1.5</version>
-				  <configuration><skip>true</skip></configuration>
-				  <executions>
+                  <!--<configuration><skip>true</skip></configuration>-->
+                  <executions>
                         <execution>
                           <id>sign-artifacts</id>
                           <phase>verify</phase>
@@ -221,67 +282,69 @@
                         </execution>
                   </executions>
                 </plugin>
-             
-             <plugin>   
-                <artifactId>maven-deploy-plugin</artifactId>
-              <version>2.8.1</version>
-              <executions>
-                 <execution>
-                    <id>default-deploy</id>
-                    <phase>deploy</phase>
-                    <goals>
-                       <goal>deploy</goal>
-                    </goals>
-                 </execution>
-              </executions>
-           </plugin>
-               <plugin>
-                  <groupId>org.sonatype.plugins</groupId>
-                  <artifactId>nexus-staging-maven-plugin</artifactId>
-                  <version>1.6.7</version>
-                  <extensions>true</extensions>
-                  <executions>
-                    <execution>
-                      <id>default-deploy</id>
-                      <phase>deploy</phase>
-                      <goals>
-                        <goal>deploy</goal>
-                      </goals>
-                    </execution>
-                  </executions>
-                  <configuration>
-                        <serverId>ossrh</serverId>
-                        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                        <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                  </configuration>
-                </plugin> 
-
-              <plugin>
-    			<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-	        			<execution>
-				        	<id>get-the-git-infos</id>
-						<goals>
-							<goal>revision</goal>
-	            				</goals>
-	            				<phase>validate</phase>
-	 				</execution>
-	 			</executions>
-	 			<configuration>
-					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-	                    		<includeOnlyProperties>
-	                        		<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
-	                        		<includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
-	                    		</includeOnlyProperties>
-	                    		<commitIdGenerationMode>full</commitIdGenerationMode>
-	 				<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-					<!-- <format>json</format> -->
-				</configuration>
+			<plugin>
+				 <groupId>org.apache.maven.plugins</groupId>
+			   <artifactId>maven-compiler-plugin</artifactId>
+			   <version>3.8.0</version>
+			   <configuration>
+			      <source>${maven.compiler.source}</source>
+			      <target>${maven.compiler.target}</target>
+			   </configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.boot.version}</version>
+				<configuration>
+					<layout>ZIP</layout>
+					<executable>true</executable>
+					<jvmArguments>
+					      <source>${maven.compiler.source}</source>
+					      <target>${maven.compiler.target}</target>
+					</jvmArguments>
+				</configuration>
+				
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				
+			</plugin>
 		</plugins>
-		</build>
+	</build>
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<properties>
+				<sonar.sources>.</sonar.sources>
+				<sonar.inclusions>src/main/java/**,src/main/resources/**</sonar.inclusions>
+				<sonar.exclusions>${sonar.coverage.exclusions}</sonar.exclusions>
+				<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+						<version>${maven.sonar.plugin.version}</version>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>sonar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
