@@ -218,7 +218,6 @@
 	      	<version>${junit.version}</version>
 	      	<scope>test</scope>
 	    </dependency>
-        <dependency>
     </dependencies>
 
 	<build>
