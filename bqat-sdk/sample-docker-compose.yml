@@ -2,10 +2,10 @@ version: '3'
 services:
   biosdk_server:
     build: .
-    image: bqatsdk_server
+    image: bqatsdk-server
     container_name: bqatsdk_server
     ports:
-      - "9099:9099"
+      - "8849:8849"
     environment:
       bqatsdk_zip_url: https://mosip.s3-us-west-2.amazonaws.com/bqatsd-1.1.0.zip
       bqatsdk_bioapi_impl: io.bqat.sdk.services.impl.BqatQualitySdkService
