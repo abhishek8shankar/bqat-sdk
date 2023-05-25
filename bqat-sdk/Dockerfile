@@ -1,12 +1,12 @@
 FROM openjdk:11
 
-#ARG bqatsdk_zip_url
+ARG bqatsdk_zip_url
 
-#ENV bqatsdk_zip_file_path=${bqatsdk_zip_url}
+ENV bqatsdk_zip_file_path=${bqatsdk_zip_url}
 
-#ARG bqatsdk_local_dir=bqatsdk-client
+ARG bqatsdk_local_dir=bqatsdk-client
 
-#ENV bqatsdk_local_dir_name=${bqatsdk_local_dir}
+ENV bqatsdk_local_dir_name=${bqatsdk_local_dir}
 
 ARG sdk_impl
 
@@ -61,11 +61,11 @@ ENV logging_level_root_env=${logging_level_root}
 
 ADD ./target/bqatsdk-services-*.jar bqatsdk-services.jar
 
-#ADD ./configure_bqatsdk.sh configure_bqatsdk.sh
+ADD ./configure_bqatsdk.sh configure_bqatsdk.sh
 
 RUN chmod 775 bqatsdk-services.jar
 
-#RUN chmod +x configure_bqatsdk.sh
+RUN chmod +x configure_bqatsdk.sh
 
 # change permissions of file inside working dir
 RUN chown -R ${container_user}:${container_user} /home/${container_user}
