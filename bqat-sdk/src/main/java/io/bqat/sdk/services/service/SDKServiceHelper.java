@@ -33,6 +33,7 @@ public class SDKServiceHelper {
 				DateUtils.getUTCCurrentDateTime(), "1.0.0");
 
 		logger.debug("requestBody>>>>>>>>>>>>>>>>>" +  requestBody);
+		logger.info("url>>>>>>>>>>>>>>>>>" +  "http://" + settingsDto.getServerIpAddress() + "" + settingsDto.getServerPort() + "" + settingsDto.getServerPath());
 		
 		MediaType mediaType = MediaType.parse(settingsDto.getContentType() + "; charset=" + settingsDto.getContentCharset());
 		RequestBody body = RequestBody.create(mediaType, requestBody);
