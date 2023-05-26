@@ -32,8 +32,7 @@ public class SDKServiceHelper {
 		String requestBody = String.format(REQ_TEMPLATE, requestDto.getModality(), requestDto.getId(), requestDto.getType(), requestDto.getData(),
 				DateUtils.getUTCCurrentDateTime(), "1.0.0");
 
-		logger.debug("requestBody>>>>>>>>>>>>>>>>>" +  requestBody);
-		logger.info("url>>>>>>>>>>>>>>>>>" +  "http://" + settingsDto.getServerIpAddress() + "" + settingsDto.getServerPort() + "" + settingsDto.getServerPath());
+		//logger.debug("requestBody>>>>>>>>>>>>>>>>>" +  requestBody);
 		
 		MediaType mediaType = MediaType.parse(settingsDto.getContentType() + "; charset=" + settingsDto.getContentCharset());
 		RequestBody body = RequestBody.create(mediaType, requestBody);

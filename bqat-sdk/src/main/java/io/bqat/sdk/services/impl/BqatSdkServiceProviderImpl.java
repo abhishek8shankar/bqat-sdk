@@ -69,11 +69,10 @@ public class BqatSdkServiceProviderImpl implements BqatSdkServiceProvider {
     @Override
     public Object checkQuality(RequestDto request) {
     	Response response = null;
-        logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "decoding Started");
         String decryptedRequest = decode(request.getRequest());
-        logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "decoding successful");
+        logger.debug(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "decoding successful");
         CheckQualityRequestDto checkQualityRequestDto = gson.fromJson(decryptedRequest, CheckQualityRequestDto.class);
-        logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "json to dto successful");
+        logger.debug(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "json to dto successful");
         try {
             response = iBioApiV2.checkQuality(
                     checkQualityRequestDto.getSample(),
