@@ -117,6 +117,7 @@ public class BqatController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Check successful") })
 	public ResponseEntity<String> checkQuality(@Validated @RequestBody(required = true) RequestDto request,
 			@ApiIgnore Errors errors) {
+		logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE, "checkQuality: Started");
 		ResponseDto responseDto = generateResponseTemplate(request.getVersion());
 		try {
 			responseDto.setVersion(request.getVersion());
@@ -129,6 +130,7 @@ public class BqatController {
 			responseDto.getErrors().add(errorDto);
 			return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));
 		}
+		logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE, "checkQuality: Ended");
 		return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));
 	}
 
