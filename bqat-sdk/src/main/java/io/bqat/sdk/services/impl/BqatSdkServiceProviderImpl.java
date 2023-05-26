@@ -58,7 +58,7 @@ public class BqatSdkServiceProviderImpl implements BqatSdkServiceProvider {
         logger.debug(LOGGER_SESSIONID, LOGGER_IDTYPE,"init: ", "json to dto successful");
         try {
             sdkInfo = iBioApiV2.init(initRequestDto.getInitParams());
-        } catch (Throwable e){
+        } catch (Exception e){
             e.printStackTrace();
             logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"init: ", e.toString()+" "+e.getMessage());
             throw new BqatSdkException(ErrorMessages.BQAT_SDK_LIB_EXCEPTION.toString(), ErrorMessages.BQAT_SDK_LIB_EXCEPTION.getMessage()+": "+e.getMessage());
@@ -69,17 +69,18 @@ public class BqatSdkServiceProviderImpl implements BqatSdkServiceProvider {
     @Override
     public Object checkQuality(RequestDto request) {
     	Response response = null;
+        logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "decoding Started");
         String decryptedRequest = decode(request.getRequest());
-        logger.debug(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "decoding successful");
+        logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "decoding successful");
         CheckQualityRequestDto checkQualityRequestDto = gson.fromJson(decryptedRequest, CheckQualityRequestDto.class);
-        logger.debug(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "json to dto successful");
+        logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", "json to dto successful");
         try {
             response = iBioApiV2.checkQuality(
                     checkQualityRequestDto.getSample(),
                     checkQualityRequestDto.getModalitiesToCheck(),
                     checkQualityRequestDto.getFlags()
             );
-        } catch (Throwable e){
+        } catch (Exception e){
             e.printStackTrace();
             logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"checkQuality: ", e.toString()+" "+e.getMessage());
             throw new BqatSdkException(ErrorMessages.BQAT_SDK_LIB_EXCEPTION.toString(), ErrorMessages.BQAT_SDK_LIB_EXCEPTION.getMessage()+": "+e.toString()+" "+e.getMessage());
@@ -101,7 +102,11 @@ public class BqatSdkServiceProviderImpl implements BqatSdkServiceProvider {
                     matchRequestDto.getModalitiesToMatch(),
                     matchRequestDto.getFlags()
             );
-        } catch (Throwable e){
+        } catch (BqatSdkException e){
+            e.printStackTrace();
+            logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"match: ", e.toString()+" "+e.getMessage());
+            throw e;
+        } catch (Exception e){
             e.printStackTrace();
             logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"match: ", e.toString()+" "+e.getMessage());
             throw new BqatSdkException(ErrorMessages.BQAT_SDK_LIB_EXCEPTION.toString(), ErrorMessages.BQAT_SDK_LIB_EXCEPTION.getMessage()+": "+e.toString()+" "+e.getMessage());
@@ -122,7 +127,11 @@ public class BqatSdkServiceProviderImpl implements BqatSdkServiceProvider {
                     extractTemplateRequestDto.getModalitiesToExtract(),
                     extractTemplateRequestDto.getFlags()
             );
-        } catch (Throwable e){
+        } catch (BqatSdkException e){
+            e.printStackTrace();
+            logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"extractTemplate: ", e.toString()+" "+e.getMessage());
+            throw e;
+        } catch (Exception e){
             e.printStackTrace();
             logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"extractTemplate: ", e.toString()+" "+e.getMessage());
             throw new BqatSdkException(ErrorMessages.BQAT_SDK_LIB_EXCEPTION.toString(), ErrorMessages.BQAT_SDK_LIB_EXCEPTION.getMessage()+": "+e.toString()+" "+e.getMessage());
@@ -143,7 +152,11 @@ public class BqatSdkServiceProviderImpl implements BqatSdkServiceProvider {
                     segmentRequestDto.getModalitiesToSegment(),
                     segmentRequestDto.getFlags()
             );
-        } catch (Throwable e){
+        } catch (BqatSdkException e){
+            e.printStackTrace();
+            logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"segment: ", e.toString()+" "+e.getMessage());
+            throw e;
+        } catch (Exception e){
             e.printStackTrace();
             logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"segment: ", e.toString()+" "+e.getMessage());
             throw new BqatSdkException(ErrorMessages.BQAT_SDK_LIB_EXCEPTION.toString(), ErrorMessages.BQAT_SDK_LIB_EXCEPTION.getMessage()+": "+e.toString()+" "+e.getMessage());
@@ -167,7 +180,11 @@ public class BqatSdkServiceProviderImpl implements BqatSdkServiceProvider {
                     convertFormatRequestDto.getTargetParams(),
                     convertFormatRequestDto.getModalitiesToConvert()
             );
-        } catch (Throwable e){
+        } catch (BqatSdkException e){
+            e.printStackTrace();
+            logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"convertFormat: ", e.toString()+" "+e.getMessage());
+            throw e;
+        } catch (Exception e){
             e.printStackTrace();
             logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE,"convertFormat: ", e.toString()+" "+e.getMessage());
             throw new BqatSdkException(ErrorMessages.BQAT_SDK_LIB_EXCEPTION.toString(), ErrorMessages.BQAT_SDK_LIB_EXCEPTION.getMessage()+": "+e.toString()+" "+e.getMessage());
