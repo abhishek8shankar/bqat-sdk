@@ -28,6 +28,7 @@ public final class LoggerConfig {
 	}
 	
 	public static Logger logConfig(Class<?> clazz) {
-		return Logfactory.getDefaultRollingFileLogger(MOSIP_ROLLING_APPENDER, clazz);
+		//return Logfactory.getDefaultRollingFileLogger(MOSIP_ROLLING_APPENDER, clazz);
+		return Logfactory.getSlf4jLogger(clazz);
 	}
 }
