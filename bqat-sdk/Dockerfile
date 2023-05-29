@@ -78,4 +78,4 @@ EXPOSE 8849
 #ENTRYPOINT [ "./configure_bqatsdk.sh" ]
 
 CMD echo $bqatsdk_bioapi_impl ; \
-java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="" -Dserver.servlet.context-path="${service_context_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}" -Dlogging.level.root=${logging_level_root_env} -jar bqatsdk-services.jar
+java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="${bqatsdk_bioapi_impl}" -Dserver.servlet.context-path="${service_context_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}" -Dlogging.level.root=${logging_level_root_env} -jar bqatsdk-services.jar
