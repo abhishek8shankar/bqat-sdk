@@ -24,10 +24,10 @@ ENV active_profile_env=${active_profile}
 ENV spring_config_label_env=${spring_config_label}
 
 # environment variable to pass bqat server ipaddress, at docker runtime
-ENV bqat_server_ipaddress=${bqat_server_ipaddress}
+# ENV bqat_server_ipaddress=${bqat_server_ipaddress}
 
 # environment variable to pass bqat server port, at docker runtime
-ENV bqat_server_port=${bqat_server_port}
+# ENV bqat_server_port=${bqat_server_port}
 
 # can be passed during Docker build as build time environment for github branch to pickup configuration from.
 ARG container_user=mosip
@@ -81,4 +81,5 @@ EXPOSE 8849
 #ENTRYPOINT [ "./configure_bqatsdk.sh" ]
 
 CMD echo $bqatsdk_bioapi_impl ; \
-java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="${bqatsdk_bioapi_impl}" -Dserver.servlet.context-path="${service_context_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dbqat.server.ipaddress="${bqat_server_ipaddress}" -Dbqat.server.port="${bqat_server_port}" -Dlogging.level.root=${logging_level_root_env} -jar bqatsdk-services.jar
+# java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="${bqatsdk_bioapi_impl}" -Dserver.servlet.context-path="${service_context_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dbqat.server.ipaddress="${bqat_server_ipaddress}" -Dbqat.server.port="${bqat_server_port}" -Dlogging.level.root=${logging_level_root_env} -jar bqatsdk-services.jar
+java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="${bqatsdk_bioapi_impl}" -Dserver.servlet.context-path="${service_context_env}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dlogging.level.root=${logging_level_root_env} -jar bqatsdk-services.jar
