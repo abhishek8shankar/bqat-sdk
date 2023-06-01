@@ -30,10 +30,10 @@ ENV bqatsdk_bioapi_impl=${sdk_impl}
 ENV active_profile_env=${active_profile}
 
 # environment variable to pass spring cloud config uri such as DEV, QA etc at docker runtime
-ENV spring_cloud_config_uri=${spring_config_url}
+ENV spring_config_label_env=${spring_config_label}
 
 # environment variable to pass github branch to pickup configuration from, at docker runtime
-ENV spring_config_label_env=${spring_config_label}
+ENV spring_config_url_env=${spring_config_url}
 
 # can be passed during Docker build as build time environment for github branch to pickup configuration from.
 ARG container_user=mosip
@@ -87,4 +87,4 @@ EXPOSE 8849
 #ENTRYPOINT [ "./configure_bqatsdk.sh" ]
 
 CMD echo $bqatsdk_bioapi_impl ; \
-java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="${bqatsdk_bioapi_impl}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_cloud_config_uri}" -jar bqatsdk-services.jar
+java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="${bqatsdk_bioapi_impl}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}"  -jar bqatsdk-services.jar
