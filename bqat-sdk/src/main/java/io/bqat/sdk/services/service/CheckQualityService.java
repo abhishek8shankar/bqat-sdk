@@ -1,5 +1,8 @@
 package io.bqat.sdk.services.service;
 
+import static io.bqat.sdk.services.constant.AppConstants.LOGGER_IDTYPE;
+import static io.bqat.sdk.services.constant.AppConstants.LOGGER_SESSIONID;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +12,6 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import io.bqat.sdk.services.config.LoggerConfig;
 import io.bqat.sdk.services.constant.ResponseStatus;
 import io.bqat.sdk.services.dto.BqatRequestDto;
 import io.bqat.sdk.services.dto.SettingsDto;
@@ -20,16 +22,15 @@ import io.mosip.kernel.biometrics.entities.BiometricRecord;
 import io.mosip.kernel.biometrics.model.QualityCheck;
 import io.mosip.kernel.biometrics.model.QualityScore;
 import io.mosip.kernel.biometrics.model.Response;
-import io.mosip.kernel.core.logger.spi.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CheckQualityService extends SDKService {	
 	private SettingsDto settingsDto;
 
 	private BiometricRecord sample;
 	private List<BiometricType> modalitiesToCheck;
 	private Map<String, String> flags;
-
-    private Logger logger = LoggerConfig.logConfig(CheckQualityService.class);
 
     private SDKServiceHelper serviceHelper;
 	
@@ -60,7 +61,7 @@ public class CheckQualityService extends SDKService {
 				scores.put(modality, qualityScore);
 			}
 		} catch (BqatSdkException ex) {
-			logger.error("checkQuality -- error", ex);
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "checkQuality -- error", ex);
 			switch (ResponseStatus.fromStatusCode(Integer.parseInt(ex.getErrorCode()))) {
 			case INVALID_INPUT:
 				response.setStatusCode(ResponseStatus.INVALID_INPUT.getStatusCode());
@@ -101,7 +102,7 @@ public class CheckQualityService extends SDKService {
 				return response;
 			}
 		} catch (Exception ex) {
-			logger.error("checkQuality -- error", ex);
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "checkQuality -- error", ex);
 			response.setStatusCode(ResponseStatus.UNKNOWN_ERROR.getStatusCode());
 			response.setStatusMessage(String.format(ResponseStatus.UNKNOWN_ERROR.getStatusMessage() + ""));
 			response.setResponse(null);

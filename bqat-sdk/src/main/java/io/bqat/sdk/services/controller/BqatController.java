@@ -6,10 +6,10 @@ import com.google.gson.GsonBuilder;
 import io.bqat.sdk.services.dto.ErrorDto;
 import io.bqat.sdk.services.dto.RequestDto;
 import io.bqat.sdk.services.dto.ResponseDto;
-import io.bqat.sdk.services.config.LoggerConfig;
 import io.bqat.sdk.services.constant.ErrorMessages;
 import io.bqat.sdk.services.exceptions.BqatSdkException;
 import io.bqat.sdk.services.factory.BqatSdkServiceFactory;
+import io.bqat.sdk.services.service.CheckQualityService;
 import io.bqat.sdk.services.spi.BqatSdkServiceProvider;
 import io.bqat.sdk.services.utils.Utils;
 import io.mosip.kernel.biometrics.spi.IBioApiV2;
@@ -18,6 +18,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -41,8 +43,8 @@ import static io.bqat.sdk.services.constant.AppConstants.LOGGER_SESSIONID;
 @RequestMapping("/")
 @Api(tags = "Sdk")
 @CrossOrigin("*")
+@Slf4j
 public class BqatController {
-	private Logger logger = LoggerConfig.logConfig(BqatController.class);
 
 	@Autowired
 	private Utils serviceUtil;
@@ -84,7 +86,7 @@ public class BqatController {
 			bioSdkServiceProviderImpl = bqatSdkServiceFactory.getBioSdkServiceProvider(request.getVersion());
 			responseDto.setResponse(bioSdkServiceProviderImpl.init(request));
 		} catch (BqatSdkException e) {
-			logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
 			ErrorDto errorDto = new ErrorDto(e.getErrorCode(), e.getErrorText());
 			responseDto.getErrors().add(errorDto);
 			return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));
@@ -104,7 +106,7 @@ public class BqatController {
 			bioSdkServiceProviderImpl = bqatSdkServiceFactory.getBioSdkServiceProvider(request.getVersion());
 			responseDto.setResponse(bioSdkServiceProviderImpl.match(request));
 		} catch (BqatSdkException e) {
-			logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
 			ErrorDto errorDto = new ErrorDto(e.getErrorCode(), e.getErrorText());
 			responseDto.getErrors().add(errorDto);
 			return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));
@@ -124,12 +126,12 @@ public class BqatController {
 			bioSdkServiceProviderImpl = bqatSdkServiceFactory.getBioSdkServiceProvider(request.getVersion());
 			responseDto.setResponse(bioSdkServiceProviderImpl.checkQuality(request));
 		} catch (BqatSdkException e) {
-			logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
 			ErrorDto errorDto = new ErrorDto(e.getErrorCode(), e.getErrorText());
 			responseDto.getErrors().add(errorDto);
 			return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));
 		}
-		logger.info(LOGGER_SESSIONID, LOGGER_IDTYPE, "checkQuality: Ended");
+		log.info(LOGGER_SESSIONID, LOGGER_IDTYPE, "checkQuality: Ended");
 		return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));
 	}
 
@@ -145,7 +147,7 @@ public class BqatController {
 			bioSdkServiceProviderImpl = bqatSdkServiceFactory.getBioSdkServiceProvider(request.getVersion());
 			responseDto.setResponse(bioSdkServiceProviderImpl.extractTemplate(request));
 		} catch (BqatSdkException e) {
-			logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
 			ErrorDto errorDto = new ErrorDto(e.getErrorCode(), e.getErrorText());
 			responseDto.getErrors().add(errorDto);
 			return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));
@@ -165,7 +167,7 @@ public class BqatController {
 			bioSdkServiceProviderImpl = bqatSdkServiceFactory.getBioSdkServiceProvider(request.getVersion());
 			responseDto.setResponse(bioSdkServiceProviderImpl.convertFormat(request));
 		} catch (BqatSdkException e) {
-			logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
 			ErrorDto errorDto = new ErrorDto(e.getErrorCode(), e.getErrorText());
 			responseDto.getErrors().add(errorDto);
 			return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));
@@ -185,7 +187,7 @@ public class BqatController {
 			bioSdkServiceProviderImpl = bqatSdkServiceFactory.getBioSdkServiceProvider(request.getVersion());
 			responseDto.setResponse(bioSdkServiceProviderImpl.segment(request));
 		} catch (BqatSdkException e) {
-			logger.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "BqatSdkException: ", e.getMessage());
 			ErrorDto errorDto = new ErrorDto(e.getErrorCode(), e.getErrorText());
 			responseDto.getErrors().add(errorDto);
 			return ResponseEntity.status(HttpStatus.OK).body(gson.toJson(responseDto));

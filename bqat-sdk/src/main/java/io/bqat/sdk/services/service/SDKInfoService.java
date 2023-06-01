@@ -5,15 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.bqat.sdk.services.config.LoggerConfig;
 import io.mosip.kernel.biometrics.constant.BiometricFunction;
 import io.mosip.kernel.biometrics.constant.BiometricType;
 import io.mosip.kernel.biometrics.model.SDKInfo;
-import io.mosip.kernel.core.logger.spi.Logger;
 
 public class SDKInfoService extends SDKService {
 	private String apiVersion, sdkVersion, organization, type;
-	private Logger logger = LoggerConfig.logConfig(SDKInfoService.class);
 
 	public SDKInfoService(String apiVersion, String sdkVersion, String organization, String type) {
 		this.apiVersion = apiVersion;

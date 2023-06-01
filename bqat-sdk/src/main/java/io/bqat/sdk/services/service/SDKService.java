@@ -1,11 +1,13 @@
 package io.bqat.sdk.services.service;
 
+import static io.bqat.sdk.services.constant.AppConstants.LOGGER_IDTYPE;
+import static io.bqat.sdk.services.constant.AppConstants.LOGGER_SESSIONID;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.bqat.sdk.services.config.LoggerConfig;
 import io.bqat.sdk.services.constant.ResponseStatus;
 import io.bqat.sdk.services.constant.SDKContstant;
 import io.bqat.sdk.services.dto.BqatRequestDto;
@@ -37,10 +39,10 @@ import io.mosip.kernel.biometrics.constant.BiometricType;
 import io.mosip.kernel.biometrics.constant.PurposeType;
 import io.mosip.kernel.biometrics.entities.BIR;
 import io.mosip.kernel.biometrics.entities.BiometricRecord;
-import io.mosip.kernel.core.logger.spi.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class SDKService {
-	private Logger logger =  LoggerConfig.logConfig(SDKService.class);
 
 	protected Map<BiometricType, List<BIR>> getBioSegmentMap(BiometricRecord record,
 			List<BiometricType> modalitiesToMatch) {
@@ -101,20 +103,20 @@ public abstract class SDKService {
 					|| bioSubType.equals("Right IndexFinger") || bioSubType.equals("Right RingFinger")
 					|| bioSubType.equals("Right MiddleFinger") || bioSubType.equals("Right LittleFinger")
 					|| bioSubType.equals("Right Thumb"))) {
-				logger.error("isValidBIRParams>>BiometricType#" + bioType + ">>BioSubType#" + bioSubType);
+				log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "isValidBIRParams>>BiometricType#" + bioType + ">>BioSubType#" + bioSubType);
 				responseStatus = ResponseStatus.MISSING_INPUT;
 				throw new BqatSdkException(responseStatus.getStatusCode() + "", responseStatus.getStatusMessage());
 			}
 			break;
 		case IRIS:
 			if (!(bioSubType.equals("UNKNOWN") || bioSubType.equals("Left") || bioSubType.equals("Right"))) {
-				logger.error("isValidBIRParams>>BiometricType#" + bioType + ">>BioSubType#" + bioSubType);
+				log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "isValidBIRParams>>BiometricType#" + bioType + ">>BioSubType#" + bioSubType);
 				responseStatus = ResponseStatus.MISSING_INPUT;
 				throw new BqatSdkException(responseStatus.getStatusCode() + "", responseStatus.getStatusMessage());
 			}
 			break;
 		default:
-			logger.error("isValidBIRParams>>BiometricType#" + bioType + ">>BioSubType#" + bioSubType);
+			log.error(LOGGER_SESSIONID, LOGGER_IDTYPE, "isValidBIRParams>>BiometricType#" + bioType + ">>BioSubType#" + bioSubType);
 			responseStatus = ResponseStatus.MISSING_INPUT;
 			throw new BqatSdkException(responseStatus.getStatusCode() + "", responseStatus.getStatusMessage());
 		}
