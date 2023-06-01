@@ -12,6 +12,15 @@ ARG sdk_impl
 
 ARG service_context=/bqatsdk-service
 
+# can be passed during Docker build as build time environment for github branch to pickup configuration from.
+ARG spring_config_label
+
+# can be passed during Docker build as build time environment for spring profiles active 
+ARG active_profile
+
+# can be passed during Docker build as build time environment for config server URL 
+ARG spring_cloud_config_uri
+
 ENV service_context_env=${service_context}
 
 #ENV bqatsdk_zip_url=$bqatsdk_zip_url
