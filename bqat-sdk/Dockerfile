@@ -19,7 +19,7 @@ ARG spring_config_label
 ARG active_profile
 
 # can be passed during Docker build as build time environment for config server URL 
-ARG spring_cloud_config_uri
+ARG spring_config_url
 
 ENV service_context_env=${service_context}
 
@@ -30,7 +30,7 @@ ENV bqatsdk_bioapi_impl=${sdk_impl}
 ENV active_profile_env=${active_profile}
 
 # environment variable to pass spring cloud config uri such as DEV, QA etc at docker runtime
-ENV spring_cloud_config_uri=${spring_cloud_config_uri}
+ENV spring_cloud_config_uri=${spring_config_url}
 
 # environment variable to pass github branch to pickup configuration from, at docker runtime
 ENV spring_config_label_env=${spring_config_label}
