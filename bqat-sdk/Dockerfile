@@ -30,7 +30,11 @@ ENV bqatsdk_bioapi_impl=${sdk_impl}
 ENV active_profile_env=${active_profile}
 
 # environment variable to pass spring cloud config uri such as DEV, QA etc at docker runtime
+<<<<<<< Updated upstream
 ENV spring_config_label_env=${spring_config_label}
+=======
+ENV spring_config_url_env=${spring_config_url}
+>>>>>>> Stashed changes
 
 # environment variable to pass github branch to pickup configuration from, at docker runtime
 ENV spring_config_url_env=${spring_config_url}
@@ -87,4 +91,8 @@ EXPOSE 8849
 #ENTRYPOINT [ "./configure_bqatsdk.sh" ]
 
 CMD echo $bqatsdk_bioapi_impl ; \
+<<<<<<< Updated upstream
 java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="${bqatsdk_bioapi_impl}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}"  -jar bqatsdk-services.jar
+=======
+java -Dloader.path="${loader_path_env}" -Dbqatsdk_bioapi_impl="${bqatsdk_bioapi_impl}" -Dspring.cloud.config.label="${spring_config_label_env}" -Dspring.profiles.active="${active_profile_env}" -Dspring.cloud.config.uri="${spring_config_url_env}" -jar bqatsdk-services.jar
+>>>>>>> Stashed changes
